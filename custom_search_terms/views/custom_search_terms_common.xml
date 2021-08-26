@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sale Order -->
+    <record id="view_custom_sale_search" model="ir.ui.view">
+        <field name="name">sale.order.list.search</field>
+        <field name="model">sale.order</field>
+        <field eval="3" name="priority"/>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <!-- Filter by customer mobile -->
+            <xpath expr="//search/field[@name='name']" position="before">
+                <field name="partner_id" string="Customer Mobile" filter_domain="[('partner_id.mobile', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Res Partner -->
+    <record id="view_custom_partner_search" model="ir.ui.view">
+        <field name="name">res.partner.list.search</field>
+        <field name="model">res.partner</field>
+        <field eval="3" name="priority"/>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <!-- Filter by customer mobile -->
+            <xpath expr="//search/field[@name='name']" position="before">
+                <field name="mobile" string="Customer Mobile" filter_domain="[('mobile', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Invoice and Vendor bill-->
+    <record id="view_invoice_search" model="ir.ui.view">
+        <field name="name">account.move.list.search</field>
+        <field name="model">account.move</field>
+        <field eval="3" name="priority"/>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <!-- Filter by customer mobile -->
+            <xpath expr="//search/field[@name='name']" position="before">
+                <field name="partner_id" string="Customer Mobile" filter_domain="[('partner_id.mobile', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Purchase -->
+    <record id="view_custom_purchase_search" model="ir.ui.view">
+        <field name="name">purchase.order.list.search</field>
+        <field name="model">purchase.order</field>
+        <field eval="3" name="priority"/>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <!-- Filter by customer mobile -->
+            <xpath expr="//search/field[@name='name']" position="before">
+                <field name="partner_id" string="Customer Mobile" filter_domain="[('partner_id.mobile', 'ilike', self)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

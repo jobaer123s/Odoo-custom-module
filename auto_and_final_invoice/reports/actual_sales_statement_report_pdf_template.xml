@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+            id="action_actual_sales_statement_report"
+            string="Actual Sale Statement"
+            model="sale.order"
+            report_type="qweb-pdf"
+            file="auto_and_final_invoice.actual_sales_statement_report"
+            name="auto_and_final_invoice.actual_sales_statement_report"
+            print_report_name="'Actual Sale Statement'"
+            menu="True"
+    />
+
+    <template id="actual_sales_statement_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-set="d" t-value="docs['result']"/>
+                    <div class="row">
+                        <div class="col-12">
+                            <p><strong>Note:</strong> This statement has been generated for technicians only. No accounting entries have been associated with these.</p>
+                        </div>
+                    </div>
+
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h1>Adjusted Statement of: <strong><span t-esc="d['customer']" /></strong></h1>
+                        </div>
+                    </div>
+
+                    <br></br><br></br><br></br>
+
+                    <br></br>
+                    <div class="row">
+                        <div class="col-12">
+                            <h3>Payment collected by <strong><span t-esc="d['technician_name']"/></strong></h3>
+                        </div>
+                    </div>
+
+                    <br></br>
+
+                    <div>
+                        <strong>Sales Order: </strong><span t-esc="d['so']"/>
+                    </div>
+
+
+                    <br></br>
+
+
+                    <br></br>
+
+                    <div class="row">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th><strong>Description </strong></th>
+                                    <th><strong>Out</strong></th>
+                                    <th><strong>Return</strong></th>
+                                    <th><strong>Delivered</strong></th>
+                                    <th><strong>Unit Price</strong></th>
+                                    <th><strong>Amount</strong></th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="d['actual_sale_products_list']" t-as="sale_product">
+                                    <tr>
+                                        <td>
+                                            <span t-esc="sale_product['name']"/>
+                                        </td>
+
+                                        <td>
+                                            <span t-esc="sale_product['out_qty']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="sale_product['return_qty']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="sale_product['delivered_quantity']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="sale_product['price_unit']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="sale_product['price_total']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            &amp;nbsp;
+                        </div>
+                        <div class="col-6">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>
+                                        Subtotal
+                                    </td>
+                                    <td class="text-right">
+                                        BDT &amp;nbsp; <span t-esc="d['amount_total']" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Total
+                                    </td>
+                                    <td class="text-right">
+                                        BDT &amp;nbsp; <span t-esc="d['amount_total']" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <br></br><br></br><br></br>
+
+                    <div t-if="d['main_products']">
+                        <table class="table table-sm o_main_table" name="invoice_line_table">
+                            <thead>
+                                <tr>
+                                    <th name="th_description" class="text-left"><span>Main Product</span></th>
+                                    <th name="th_quantity" class="text-right"><span>Quantity</span></th>
+                                </tr>
+                            </thead>
+                            <tbody class="invoice_tbody">
+                                <t t-foreach="d['main_products']" t-as="line">
+                                    <tr>
+                                        <td name="account_invoice_line_name">
+                                            <span t-esc="line['name']" t-options="{'widget': 'text'}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['quantity']"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br></br><br></br>
+
+                    <div class="row">
+                        <div class="col-3">
+                            <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Service Incharge</strong>
+                        </div>
+                        <div class="col-3">
+                            <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Manager</strong>
+                        </div>
+                        <div class="col-3">
+                            <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Auditor</strong>
+                        </div>
+                        <div class="col-3">
+                            <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Authorized Signature</strong>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

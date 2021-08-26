@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="summarized_customer_ledger_form" model="ir.ui.view">
+            <field name="name">summarized.customer.ledger.form</field>
+            <field name="model">summarized.customer.ledger</field>
+            <field name="arch" type="xml">
+                <form string="Summarized Customer Ledger">
+                    <group>
+                        <group>
+                            <field name="from_date" required="1"/>
+                            <field name="customer" required="0"/>
+
+                        </group>
+                        <group>
+                            <field name="to_date" required="1"/>
+                            <field name="sales_person" required="0"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="summarized_customer_ledger_pdf" string="Download (PDF)" type="object" class="btn-primary" context="{'from_date': from_date, 'customer': customer, 'to_date': to_date, 'sales_person': sales_person}"/>
+                        <!--<button name="customer_sales_report_excel" string="Download (Excel)" type="object" class="btn-primary" context="{'customer': customer}"/>-->
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="summarized_customer_ledger_report_action" model="ir.actions.act_window">
+            <field name="name">Summarized Customer Ledger</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">summarized.customer.ledger</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="summarized_customer_ledger_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Accounting Report Menu: Reporting > Summarized Customer Ledger -->
+        <menuitem id="menu_sum_customer_ledger_report"
+              name="Summarized Customer Ledger"
+              sequence="7"
+              action="custom_report_ledger.summarized_customer_ledger_report_action"
+              parent="base_accounting_kit.account_reports_generic_statements"
+
+        />
+
+        <report
+            id="summarized_customer_ledger_report_tmpl"
+            string="Summarized Customer Ledger"
+            model="summarized.customer.ledger"
+            report_type="qweb-pdf"
+            name="custom_report_ledger.summarized_customer_ledger_report"
+            file="custom_report_ledger.summarized_customer_ledger_report"
+            />
+
+    </data>
+</odoo>

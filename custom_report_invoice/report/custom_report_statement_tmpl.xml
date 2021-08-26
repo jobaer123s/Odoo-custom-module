@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="custom_report_statement_report">
+
+        <t t-call="web.html_container">
+
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style type="text/css">
+                            table {
+                                width: 100%;
+                            }
+
+                            td, th {
+                                padding: 5px;
+                            }
+                            table thead th{
+                                background-color: #FFFF00;
+                            }
+                            table, th, td {
+                                border: 1px solid black;
+                            }
+                        </style>
+
+                        <div class="oe_structure"/>
+
+                        <div class="row text-center">
+                            <div class="col-lg-12">
+                                <h2><strong>Statement of Mr./s. <t t-esc="customer_name"/></strong></h2>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row" style="border: 1pt solid black;">
+                                <div class="col-12" style="padding-top: 10px; padding-bottom: 10px;">
+                                    <h4><strong>Customer Details</strong></h4>
+                                    <b>Customer Name: </b><span t-esc="customer_name"/>
+                                    <br/>
+                                    <b>Address: </b><t t-if="customer_street"><span t-esc="customer_street"/><br/>,</t> <t t-if="customer_city"><span t-esc="customer_city"/></t><t t-if="customer_zip">-<span t-esc="customer_zip"></span>.</t>
+                                    <br/>
+                                    <b>Mobile No.: </b><span t-esc="customer_mobile"/>
+                                    <br/>
+                                    <b>Email: </b><span t-esc="customer_email"/>
+                                </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <table class="table center" border="1">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th class="align-middle" >Sl. No.</th>
+                                        <th class="align-middle" ><strong>Date</strong></th>
+                                        <th class="align-middle" ><strong>Invoice No.</strong></th>
+                                        <th class="align-middle" ><strong>Amount </strong></th>
+                                        <th class="align-middle" ><strong>Paid </strong></th>
+                                        <th class="align-middle" ><strong>Due </strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <t t-set="sl_no" t-value="1"/>
+                                    <t t-foreach="csr" t-as="o">
+                                        <tr>
+                                            <td class="text-center">
+                                                <t t-esc="sl_no" />
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="o['invoice_date']"/>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <t t-esc="o['invoice_no']"/>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <t t-esc="o['debit']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="o['credit']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <t t-esc="o['balance']"/>
+                                            </td>
+                                            <t t-set="sl_no" t-value="sl_no+1"/>
+                                        </tr>
+                                    </t>
+                                    <tr style="background-color: #FFFF00;">
+
+                                        <td colspan="3" class="text-right"><strong>GRAND TOTAL</strong></td>
+                                        <td class="text-center"><strong><t t-esc="total_debit"/></strong></td>
+                                        <td class="text-center"><strong><t t-esc="total_credit"/></strong></td>
+                                        <td class="text-center"><strong><t t-esc="total_balance"/></strong></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br/>
+                    <h3 style="color: red; text-align: center;"><strong>So, the total due is BDT <t t-esc="total_balance"/> (In Words: <t t-esc="amount_in_words"/> Taka Only.)</strong></h3>
+                    <div class="row" style="margin-top: 12.5em;">
+                        <div class="col-9">
+                            <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Authorized Signature</strong>
+                        </div>
+                        <div class="col-3">
+                            <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Customer Signature</strong>
+                        </div>
+                    </div>
+                </t>
+            </t>
+
+    </template>
+
+</odoo>

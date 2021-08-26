@@ -1,0 +1,20 @@
+{
+    'name': 'Auto and Final Invoice',
+    'version': '1.0.0',
+    'category': 'Tools',
+    'summary': 'Auto and Final Invoice for Odoo v13',
+    'description': """Auto invoice on validate chalan and Final Invoice without returned products.""",
+    'author': 'Ogroni Informatix Limited',
+    'company': 'Ogroni Informatix Limited',
+    'maintainer': 'Ogroni Informatix Limited',
+    'website': 'https://ogroni.net/',
+    'depends': ['stock'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/auto_invoice.xml',
+        'reports/actual_sales_statement_report_pdf_template.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

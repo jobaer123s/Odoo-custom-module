@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Project -->
+        <record id="view_project_view_inherit" model="ir.ui.view">
+            <field name="name">view_project_view_inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@class='oe_title']" position="after">
+
+                    <group>
+                        <group>
+                            <field name="project_detail" readonly="False"/>
+                            <field name="project_start_date" readonly="False"/>
+                            <field name="project_closing_forecast_date" readonly="False"/>
+                            <field name="project_closing_actual_date" readonly="False"/>
+                        </group>
+                        <group>
+                            <field name="technology" readonly="False"/>
+                            <field name="git_repo" readonly="False"/>
+                            <field name="dev_instance" readonly="False"/>
+                            <field name="live_instance" readonly="False"/>
+                            <field name="skype" readonly="False"/>
+                        </group>
+                    </group>
+                    <group string="Project Deliverable">
+                        <field name="project_deliverable" string="" readonly="False" mode="tree">
+                            <tree string="Project Deliverable" editable="bottom">
+                                <field name="name" readonly="False"/>
+                                <field name="technology" readonly="False"/>
+                                <field name="deadline" readonly="False"/>
+                                <field name="remarks" readonly="False"/>
+                            </tree>
+                        </field>
+                    </group>
+
+                    <group string="Dev Team Composition">
+                        <field name="dev_team_com" string="" readonly="False" mode="tree">
+                            <tree string="Dev Team Composition" editable="bottom">
+                                <field name="name" readonly="False"/>
+                                <field name="designation" readonly="False"/>
+                                <field name="role" readonly="False"/>
+                                <field name="contact_no" readonly="False"/>
+                                <field name="email" readonly="False"/>
+                                <field name="remarks" readonly="False"/>
+                            </tree>
+
+                        </field>
+                    </group>
+
+                    <group string="Client Team Composition">
+                        <field name="client_team_com" string="" readonly="False" mode="tree">
+                            <tree string="Client Team Composition" editable="bottom">
+                                <field name="name" readonly="False"/>
+                                <field name="designation" readonly="False"/>
+                                <field name="role" readonly="False"/>
+                                <field name="contact_no" readonly="False"/>
+                                <field name="email" readonly="False"/>
+                                <field name="remarks" readonly="False"/>
+                            </tree>
+
+                        </field>
+                    </group>
+
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

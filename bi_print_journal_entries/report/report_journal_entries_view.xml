@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+
+		<template id="journal_entry_template_report_view">
+			<t t-call="web.external_layout">
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
+                <div class="page">
+                    <div class="oe_structure"/>
+                        <div>
+                            <h3 class="text-center mb32">
+                                <strong><span t-field="o.journal_id"/> <strong> - Entry No. : </strong><span t-field="o.name"/></strong>
+                            </h3>
+                        </div>
+
+                    <div class="row" id="journal_information" style="margin: 0 auto !important;">
+                        <div class="col-8">
+                            <div class="text-left">
+                                <strong>Date :</strong>
+                                <p t-field="o.date"/>
+                            </div>
+                        </div>
+
+                        <div class="col-8">
+                            <div class="text-left">
+                                <strong>Reference :</strong>
+                                <p t-field="o.ref"/>
+                            </div>
+                        </div>
+                    </div>
+               
+                    <br/><br/>
+                    <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Partner</th>
+                                <th>Account</th>
+                                <th>Narration</th>
+                                <th>Due Date</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody class="consumed_tbody">
+                            <t t-set="total" t-value="0.0"/>
+                            <t t-set="total1" t-value="0.0"/>
+                            <t t-foreach="o.line_ids" t-as="line">
+                            <tr>
+                                <td>
+                                    <span t-field="line.partner_id" />
+                                </td>
+                                <td>
+                                    <span t-field="line.account_id" />
+                                </td>
+                                <td>
+                                    <span t-field="line.name" />
+                                </td>
+                                <td>
+                                    <span t-field="line.date_maturity" />
+                                </td>
+                                <td>
+                                    <span t-field="line.debit" />
+                                </td>
+                                <td>
+                                    <span t-field="line.credit" />
+                                </td>
+                            </tr>
+                            <t t-set="total" t-value="total + line.debit"/>
+                            <t t-set="total1" t-value="total1 + line.credit"/>
+                            </t>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><strong>Total:</strong></td>
+                                <td width="10%"><strong>
+                                    <span><t t-esc="total"/></span>
+                                </strong></td>
+                                 <td width="10%"><strong>
+                                    <span><t t-esc="total1"/></span>
+                                </strong></td>
+                          </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <h3 style="color: red; text-align: center; margin-bottom: 1.875em;"><strong>(In Words: <span t-esc="o.amount_in_words(total)"/> Taka Only)</strong></h3>
+                    <strong><h4>Remarks:</h4></strong>
+                    <div class="row" style="border: 1px solid black; padding:10px 0 10px 5px;  width:100%; margin: 0 auto !important;" >
+                        <span t-field="o.narration"/>
+                    </div>
+              
+                    <div class="row" style="margin-top: 12.5em;">
+                        <div class="col-3">
+                            <strong style="padding-top: 5px; border-top-style: solid; border-top-width: 1.5px; width: fit-content;">Prepared by</strong>
+                        </div>
+                        <div class="col-3">
+                            <strong style="padding-top: 5px; border-top-style: solid; border-top-width: 1.5px; width: fit-content;">Checked by (Auditor)</strong>
+                        </div>
+                        <div class="col-3">
+                            <strong style="padding-top: 5px; border-top-style: solid; border-top-width: 1.5px; width: fit-content;">Received by</strong>
+                        </div>
+                        <div class="col-3">
+                            <strong style="padding-top: 5px; border-top-style: solid; border-top-width: 1.5px; width: fit-content;">Authorized by</strong>
+                        </div>
+                    </div>
+                </div>
+            </t>
+		</template>
+
+		<template id="journal_entry_report_template_id">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="bi_print_journal_entries.journal_entry_template_report_view"  t-lang="o.partner_id.lang"/>
+				</t>
+			</t>
+		</template>
+
+	</data>
+</odoo>

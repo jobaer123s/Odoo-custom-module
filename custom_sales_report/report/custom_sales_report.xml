@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+            <record id="sales_report_form" model="ir.ui.view">
+            <field name="name">custom.sales.report.form</field>
+            <field name="model">sales.report</field>
+            <field name="arch" type="xml">
+                <form string="Sales Report">
+                    <group>
+                        <group>
+                            <field name="from_date" required="1"/>
+                        </group>
+                        <group>
+                            <field name="to_date" required="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="sales_report_pdf" string="Download (PDF)" type="object" class="btn-primary" context="{'from_date': from_date, 'to_date': to_date}"/>
+                        <button name="sales_report_excel" string="Download (Excel)" type="object" class="btn-primary" context="{'from_date': from_date, 'to_date': to_date}"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="sales_report_action" model="ir.actions.act_window">
+            <field name="name">Sales Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sales.report</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sales_report_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Accounting Report Menu: Reporting > Product Ledger -->
+        <menuitem id="menu_product_ledger_report"
+              name="Sales Report"
+              sequence="9"
+              action="custom_sales_report.sales_report_action"
+              parent="base_accounting_kit.account_reports_generic_statements"
+        />
+
+        <report
+            id="sales_pdf_report_tmpl"
+            string="Sales PDF Report "
+            model="sales.report"
+            report_type="qweb-pdf"
+            name="custom_sales_report.sales_pdf_report"
+            file="sales_pdf_report"
+            />
+
+        <report
+            id="sales_xlsx_report_tmpl"
+            string="Sales Excel Report"
+            model="sales.report"
+            report_type="xlsx"
+            name="custom_sales_report.sales_xlsx_report"
+            file="sales_xlsx_report"
+            />
+
+
+    </data>
+</odoo>

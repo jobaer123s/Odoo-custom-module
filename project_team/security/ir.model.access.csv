@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_project_system,access.project.project.system,model_project_project,project.group_project_manager,1,1,1,1
+
+access_project_deliverable_system,access.project.deliverable.system,model_project_deliverable,project.group_project_manager,1,1,1,1
+
+access_dev_team_composition_system,access.dev.team.composition.system,model_dev_team_composition,project.group_project_manager,1,1,1,1
+
+access_client_team_composition_system,access.client.team.composition.system,model_client_team_composition,project.group_project_manager,1,1,1,1
+
+
+
+

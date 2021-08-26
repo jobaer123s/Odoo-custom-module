@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_financial">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <t t-set="data_report_margin_top" t-value="12"/>
+                <t t-set="data_report_header_spacing" t-value="9"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <div class="page">
+
+                    <style type="text/css">
+                        table{
+                            border-collapse: separate !important;
+                            /*border-collapse: collapse;*/
+                        }
+                        /*
+                        th{
+                            border-bottom: 5xp solid black !important;
+                        }
+
+                        #table-border {
+                          border-collapse: separate !important;
+                          border-spacing: 15px !important;
+                        }
+
+                        td:nth-child(1){
+                            border-top-color: black !important;
+                        }
+                        */
+                        td.top-header {
+                            border-top-style: none !important;
+                        }
+
+                    </style>
+
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h2 t-esc="data['form']['account_report_id'][1]"/>
+
+                            <h4 t-esc="data['report_data']['report_year_title']"/>
+                            (<span t-esc="data['form']['date_from']"/> to <span t-esc="data['form']['date_to']"/>)
+                        </div>
+
+                    </div>
+
+                    <div class="row mt32 mb32">
+                        <div class="col-4">
+                            <strong>Target Moves:</strong>
+                            <p>
+                                <span t-if="data['form']['target_move'] == 'all'">All Entries</span>
+                                <span t-if="data['form']['target_move'] == 'posted'">All Posted Entries</span>
+                            </p>
+                        </div>
+                        <div class="col-4">
+                            <p>
+                                <t t-if="data['form']['date_from']">
+                                    <strong>Date from :</strong>
+                                    <span t-esc="data['form']['date_from']"/>
+                                    <br/>
+                                </t>
+                                <t t-if="data['form']['date_to']">
+                                    <strong>Date to :</strong>
+                                    <span t-esc="data['form']['date_to']"/>
+                                </t>
+                            </p>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm table-reports" t-if="data['form']['debit_credit'] == 1">
+                        <thead>
+                            <tr>
+                                <th class="text-center align-middle" style="border: 2px solid black !important;">Name</th>
+                                <th class="text-center" style="border: 2px solid black !important;">Notes</th>
+                                <th class="text-right" style="border: 2px solid black !important;">Debit</th>
+                                <th class="text-right" style="border: 2px solid black !important;">Credit</th>
+                                <th class="text-right" style="border: 2px solid black !important;">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="report_lines" t-as="a">
+                                <t t-if="a['level'] != 0">
+                                    <t t-if="a.get('level') &gt; 3">
+                                        <t t-set="style" t-value="'font-weight: normal;'"/>
+                                    </t>
+                                    <t t-if="not a.get('level') &gt; 3">
+                                        <t t-set="style" t-value="'font-weight: bold;'"/>
+                                    </t>
+
+                                    <td class="top-header">
+                                        <span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
+                                        <span t-att-style="style" t-esc="a.get('name')"/>
+                                    </td>
+                                    <td class="text-center top-header" style="white-space: text-nowrap;">
+                                        <span t-att-style="style" t-esc="a.get('notes')"/>
+                                    </td>
+                                    <td class="text-right top-header" style="white-space: text-nowrap;">
+                                        <span t-att-style="style" t-esc="a.get('debit')"/>
+                                    </td>
+                                    <td class="text-right top-header" style="white-space: text-nowrap;">
+                                        <span t-att-style="style" t-esc="a.get('credit')"/>
+                                    </td>
+                                    <t t-if="a.get('border_bottom')">
+                                        <td class="text-right" style="border-bottom: 1px solid black;white-space: text-nowrap;">
+                                            <span t-att-style="style" t-esc="a.get('balance')"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right top-header" style="white-space: text-nowrap;">
+                                            <span t-att-style="style" t-esc="a.get('balance')"/>
+                                        </td>
+                                    </t>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-sm table-reports"
+                           t-if="not data['form']['enable_filter'] and not data['form']['debit_credit']">
+                        <thead>
+                            <tr>
+                                <th class="text-center align-middle" style="border: 2px solid black !important;">Name</th>
+                                <th class="text-center" style="border: 2px solid black !important;">Notes</th>
+                                <th class="text-right" style="border: 2px solid black !important;">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="report_lines" t-as="a">
+                                <t t-if="a['level'] != 0">
+                                    <t t-if="a.get('level') &gt; 3">
+                                        <t t-set="style" t-value="'font-weight: normal;'"/>
+                                    </t>
+                                    <t t-if="not a.get('level') &gt; 3">
+                                        <t t-set="style" t-value="'font-weight: bold;'"/>
+                                    </t>
+
+                                    <td class="top-header">
+                                        <span style="color: white;" t-esc="'..' * a.get('level', 0)"/>
+                                        <span t-att-style="style" t-esc="a.get('name')"/>
+                                    </td>
+                                    <td class="text-center top-header">
+                                        <span t-att-style="style" t-esc="a.get('notes')"/>
+                                    </td>
+                                    <t t-if="a.get('border_bottom')">
+                                        <td class="text-right" style="border-bottom: 1px solid black;white-space: text-nowrap;">
+                                            <span t-att-style="style" t-esc="a.get('balance')"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right top-header">
+                                            <span t-att-style="style" t-esc="a.get('balance')"/>
+                                        </td>
+                                    </t>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-sm table-reports"
+                           t-if="data['form']['enable_filter'] == 1 and not data['form']['debit_credit']">
+                        <thead>
+                            <tr>
+                                <th class="text-center align-middle" style="border: 2px solid black !important;">Name</th>
+                                <th class="text-center" style="border: 2px solid black !important;">Notes</th>
+                                <th class="text-right" style="border: 2px solid black !important;">Balance</th>
+                                <th class="text-right" style="border: 2px solid black !important;">
+                                    <span t-esc="data['form']['label_filter']"/>
+                                    <!--<span>Comp</span>-->
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="report_lines" t-as="a">
+                                <t t-if="a['level'] != 0">
+                                    <t t-if="a.get('level') &gt; 3">
+                                        <t t-set="style" t-value="'font-weight: normal;'"/>
+                                    </t>
+                                    <t t-if="not a.get('level') &gt; 3">
+                                        <t t-set="style" t-value="'font-weight: bold;'"/>
+                                    </t>
+                                    <td class="top-header">
+                                        <span style="color: white;" t-esc="'..'"/>
+                                        <span t-att-style="style" t-esc="a.get('name')"/>
+                                    </td>
+                                    <td class="text-right top-header">
+                                        <span t-att-style="style" t-esc="a.get('notes')"/>
+                                    </td>
+                                    <t t-if="a.get('border_bottom')">
+                                        <td class="text-right" style="border-bottom: 1px solid black;white-space: text-nowrap;">
+                                            <span t-att-style="style" t-esc="a.get('balance')"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right top-header"  style="white-space: text-nowrap;">
+                                            <span t-att-style="style" t-esc="a.get('balance')"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="a.get('border_bottom')">
+                                        <td class="text-right" style="border-bottom: 1px solid black;white-space: text-nowrap;">
+                                            <span t-att-style="style" t-esc="a.get('balance_cmp')"/>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td class="text-right top-header" style="white-space: text-nowrap;">
+                                            <span t-att-style="style" t-esc="a.get('balance_cmp')"/>
+                                        </td>
+                                    </t>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br></br>
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 t-esc="data['report_data']['report_comment']"/>
+                        </div>
+
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

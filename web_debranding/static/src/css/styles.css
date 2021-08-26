@@ -1,0 +1,22 @@
+@charset "utf-8";
+/*
+.o_sub_menu {
+    background-color: red;
+}
+*/
+.o_main_navbar{
+    background-color: #8f1ab2 !important;
+}
+
+.o_main_navbar > ul > li > a:hover {
+    background-color: #470d59;
+    /*color: #fff !important;*/
+}
+
+.o_main_navbar .show .dropdown-toggle {
+    background-color: #470d59;
+}
+
+.o_menu_brand:hover {
+    background-color: #470d59 !important;
+}

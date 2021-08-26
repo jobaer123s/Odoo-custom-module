@@ -1,0 +1,21 @@
+{
+    'name': 'Customer Info in Views',
+    'version': '1.1.0',
+    'category': 'Customer Info in Views',
+    'summary': """ Customer Info in Views: Sale, Challan, Invoice for Odoo v13 """,
+    'description': """Customer Info in Views: Sale, Challan, Invoice""",
+    'author': 'Ogroni Informatix Limited',
+    'company': 'Ogroni Informatix Limited',
+    'maintainer': 'Ogroni Informatix Limited',
+    'website': 'https://ogroni.com/',
+    'depends': ['hr','hr_contract', 'sale', 'purchase', 'account'],
+    'data': [
+        'views/sale_order.xml',
+        'views/stock_picking.xml',
+        'views/account_move.xml',
+    ],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+    'license': 'AGPL-3',
+}

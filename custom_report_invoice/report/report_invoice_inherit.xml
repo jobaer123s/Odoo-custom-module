@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="web_report_templates_inherit" inherit_id="web.external_layout_boxed">
+        <xpath expr="//div[@class='col-6 text-right mb4']" position="replace"/>
+
+        <xpath expr="//div[contains(@t-attf-class, 'article')]" position="replace">
+            <div t-attf-class="article o_report_layout_boxed o_company_#{company.id}_layout" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-raw="0"/>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[contains(@t-attf-class, 'footer')]" position="replace">
+            <div t-attf-class="footer o_boxed_footer o_company_#{company.id}_layout">
+            <div class="text-center">
+                <ul class="list-inline">
+                    <li t-if="company.street" class="list-inline-item"><strong>Address: </strong><span t-field="company.street"/>, <span t-field="company.city"/> <span t-field="company.zip"/></li>
+                </ul>
+                <ul class="list-inline">
+                    <li t-if="company.phone" class="list-inline-item"><strong>Phone: </strong><span t-field="company.phone"/></li>
+                    <li t-if="company.email" class="list-inline-item"><strong>E-mail: </strong><span t-field="company.email"/></li>
+                    <li t-if="company.website" class="list-inline-item"><strong>Website: </strong><span t-field="company.website"/></li>
+                    <li t-if="company.vat" class="list-inline-item"><t t-esc="company.country_id.vat_label or 'Tax ID'"/>: <span t-field="company.vat"/></li>
+                </ul>
+                <div t-field="company.report_footer"/>
+                <div t-if="report_type == 'pdf'">
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
+        </div>
+        </xpath>
+    </template>
+
+    <template id="sale_invoice_report_templates_inherit" inherit_id="sale.report_invoice_document_inherit_sale">
+        <xpath expr="//address" position="replace"/>
+    </template>
+
+    <template id="account_report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+
+        <xpath expr="//div[@class='page']" position="before">
+            <div class="text-center" style="color: black;">
+                <h3><strong>INVOICE: <span t-if="o.name != '/'" t-field="o.name"/></strong></h3>
+                <br/>
+            </div>
+            <div class="row" style="border: 1pt solid black; margin: 0 auto !important;">
+                <div class="col-6">
+                    <b>Customer Name: </b><span t-field="o.partner_id.name"/>
+                    <br/>
+                    <b>Mobile: </b><span t-field="o.partner_id.mobile"/>
+                    <br/>
+                    <b>Email: </b><span t-field="o.partner_id.email"/>
+                </div>
+                <div class="col-6">
+                    <b>Delivery Address: </b><t t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>,</t><br/>
+                    <t t-if="o.partner_id.city"><span t-field="o.partner_id.city"/></t><t t-if="o.partner_id.zip">-<span t-field="o.partner_id.zip"></span></t> <span t-field="o.partner_id.country_id.name"/>
+                </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@class='page']//h2" position="replace"/>
+
+        <xpath expr="//div[@class='clearfix']" position="replace">
+            <div class="clearfix">
+                    <div id="total" class="row">
+                        <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                            <table class="table table-sm" style="page-break-inside: avoid;">
+                                <tr class="border-black">
+                                    <td><strong style="color: #000;">Subtotal</strong></td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_untaxed"/>
+                                    </td>
+
+                                </tr>
+
+                                <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                    <tr style="">
+                                        <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == amount_by_group[2]">
+                                            <td><span class="text-nowrap" t-esc="amount_by_group[0]"/></td>
+                                            <td class="text-right o_price_total">
+                                                <span class="text-nowrap" t-esc="amount_by_group[3]" />
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td>
+                                                <span t-esc="amount_by_group[0]"/>
+                                                <span class="text-nowrap"> oo
+                                                    <t t-esc="amount_by_group[4]"/>
+                                                </span>
+                                            </td>
+                                            <td class="text-right o_price_total">
+                                                <span class="text-nowrap" t-esc="amount_by_group[3]"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+
+                                 <t t-foreach="o.invoice_custom_vat" t-as="vat">
+                                    <tr style="">
+                                        <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) in [0, 1] and o.amount_untaxed == vat[2]">
+                                            <td><span class="text-nowrap" t-esc="vat[0]"/></td>
+                                            <td class="text-right o_price_total">
+                                                <span class="text-nowrap" t-esc="vat[3]" />
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td>
+                                                <span t-esc="vat[0]"/>
+                                                <span class="text-nowrap"> oo
+                                                    <t t-esc="vat[4]"/>
+                                                </span>
+                                            </td>
+                                            <td class="text-right o_price_total">
+                                                <span class="text-nowrap" t-esc="vat[3]"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+
+                                <t>
+                                    <tr style="">
+                                        <t>
+                                            <td>
+                                                <span t-esc="invoice_custom_vat"/>
+                                                <span class="text-nowrap"> Vats
+                                                    <t t-esc="invoice_custom_vat"/>
+                                                </span>
+                                            </td>
+
+                                            <td class="text-right o_price_total">
+                                                <span class="text-nowrap" t-esc="o.invoice_custom_vat"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+
+                                <tr class="border-black" style="background: #E8E8E8;">
+                                    <td><strong style="color: #000;">Total</strong></td>
+                                    <td class="text-right">
+                                        <span class="text-nowrap" t-field="o.amount_total"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@class='clearfix']" position="after">
+            <br/>
+            <table class="table table-sm" style=" width: 48.5%; margin-right: 0; margin-left: auto; border: 1pt solid #000 !important;">
+                <tr style="border: 1pt solid #000 !important;">
+                    <td><strong style="color: #000;">Previous Dues</strong></td>
+                    <td class="text-right" style="background: #E8E8E8;"><span t-esc="o.custom_invoice_statement(o.partner_id.id, o.amount_residual)[0]"/></td>
+                </tr>
+                <tr>
+                    <td><strong style="color: #000;">Total Dues</strong></td>
+                    <td class="text-right" style="background: #E8E8E8;"><span t-esc="o.custom_invoice_statement(o.partner_id.id, o.amount_residual)[1]"/></td>
+                </tr>
+            </table>
+            <br/>
+            <h4 style="color: red; text-align: center;"><strong>Total Dues (in words): <span t-esc="o.custom_invoice_statement(o.partner_id.id, o.amount_residual)[2]"/> Taka Only.</strong></h4>
+            <br/>
+        </xpath>
+
+        <xpath expr="//div[@id='qrcode']" position="before">
+            <div class="row" style="margin-top: 12.5em;">
+                <div class="col-9">
+                    <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Authorized Signature</strong>
+                </div>
+                <div class="col-3">
+                    <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Customer Signature</strong>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="account_report_invoice_document_with_payments_inherit" inherit_id="account.report_invoice_document_with_payments">
+
+        <xpath expr="//t[@t-if='len(payments_vals) > 0']" position="replace">
+            <t t-if="len(payments_vals) > 0">
+                <tr>
+                    <td style="background-color: #E8E8E8;"><strong style="color: #000; ">Amount Due</strong></td>
+                    <td style="background-color: #E8E8E8; color: #404040;" class="text-right">
+                        <span t-field="o.amount_residual"/>
+                    </td>
+                </tr>
+            </t>
+        </xpath>
+
+    </template>
+
+    <template id="hr_payroll_community_report_payslip_templates_inherit" inherit_id="hr_payroll_community.report_payslip">
+        <xpath expr="//div[@class='page']" position="replace">
+
+            <div class="page">
+                <h3 class="text-center" t-field="o.name"/>
+                <br/>
+
+                <table class="table table-sm table-bordered">
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><span t-field="o.employee_id"/></td>
+                        <td><strong>Designation</strong></td>
+                        <td><span t-field="o.employee_id.job_id"/></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Address</strong></td>
+                        <td colspan="3">
+                            <div t-field="o.employee_id.address_home_id" t-options="{'widget': 'contact', 'fields': ['address', 'name', 'phone'], 'no_marker': True, 'phone_icons': True}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mobile No.</strong></td>
+                        <td colspan="3">
+                            <div t-field="o.employee_id.mobile_phone"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email</strong></td>
+                        <td><span t-field="o.employee_id.work_email"/></td>
+                        <td><strong>Identification No.</strong></td>
+                        <td><span t-field="o.employee_id.identification_id"/></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reference</strong></td>
+                        <td><span t-field="o.number"/></td>
+                        <td><strong>Bank Account</strong></td>
+                        <td><span t-field="o.employee_id.bank_account_id"/></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date From</strong></td>
+                        <td><span t-field="o.date_from"/></td>
+                        <td><strong>Date To</strong></td>
+                        <td><span t-field="o.date_to"/></td>
+                    </tr>
+                </table>
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Rule Code</th>
+                            <th>Salary Breakdowns</th>
+                            <th>Total</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+                            <td><span t-field="line.code"/></td>
+                            <td><span t-field="line.name"/></td>
+                            <td><span t-esc="line.total" t-options="{'widget': 'monetary', 'display_currency': o.company_id.currency_id}"/></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br/>
+                <table class="table table-sm table-bordered" style="width: 30%; margin-right: 0px; margin-left: auto; text-align: right;">
+                    <tr>
+                        <td style="width: 50%;"><strong>Gross Salary:</strong></td>
+                        <td style="width: 50%;"><span t-field="o.gross_salary"/></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%;"><strong>Total Deductions:</strong></td>
+                        <td style="width: 50%;"><span t-field="o.deductions"/></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%;"><strong>Net Salary:</strong></td>
+                        <td style="width: 50%;"><span t-field="o.net_salary"/></td>
+                    </tr>
+                </table>
+                <div class="row" style="margin-top: 12.5em;">
+                    <div class="col-9">
+                        <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Authorized Signature</strong>
+                    </div>
+                    <div class="col-3">
+                        <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Employee Signature</strong>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="hr_payroll_community_report_payslip_details_templates_inherit" inherit_id="hr_payroll_community.report_payslipdetails">
+        <xpath expr="//div[@class='page']" position="replace">
+
+            <div class="page">
+                <h3 class="text-center" t-field="o.name"/>
+                <br/>
+                <table class="table table-sm table-bordered">
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><span t-field="o.employee_id"/></td>
+                        <td><strong>Designation</strong></td>
+                        <td><span t-field="o.employee_id.job_id"/></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Address</strong></td>
+                        <td colspan="3">
+                            <div t-field="o.employee_id.address_home_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mobile No.</strong></td>
+                        <td colspan="3">
+                            <div t-field="o.employee_id.mobile_phone"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email</strong></td>
+                        <td><span t-field="o.employee_id.work_email"/></td>
+                        <td><strong>Identification No</strong></td>
+                        <td><span t-field="o.employee_id.identification_id"/></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reference</strong></td>
+                        <td><span t-field="o.number"/></td>
+                        <td><strong>Bank Account</strong></td>
+                        <td><span t-field="o.employee_id.bank_account_id"/></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date From</strong></td>
+                        <td><span t-field="o.date_from"/></td>
+                        <td><strong>Date To</strong></td>
+                        <td><span t-field="o.date_to"/></td>
+                    </tr>
+                </table>
+
+                <h3>Details by Salary Rule Category</h3>
+                <table class="table table-sm mb32">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Salary Rule Category</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="get_details_by_rule_category.get(o.id, [])" t-as="h">
+                            <td>
+                                <span t-esc="h['code']"/>
+                            </td>
+                            <td>
+                                <span t-esc="'..'*h['level']"/><span t-esc="h['rule_category']"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="h['total']" t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Payslip Lines by Contribution Register</h3>
+                <table class="table table-sm mt32">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Quantity/rate</th>
+                            <th>Amount</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="get_lines_by_contribution_register.get(o.id, [])" t-as="p">
+                            <td><span t-esc="p.get('code', '')"/></td>
+                            <td><span t-esc="p.get('name', '')"/></td>
+                            <td><span t-esc="p.get('quantity', '')"/></td>
+                            <td><span t-esc="p.get('amount', 0)"/></td>
+                            <td class="text-right">
+                                <span t-esc="p.get('total', 0)" t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br/>
+                <table class="table table-sm table-bordered" style="width: 30%; margin-right: 0px; margin-left: auto; text-align: right;">
+                    <tr>
+                        <td style="width: 50%;"><strong>Gross Salary:</strong></td>
+                        <td style="width: 50%;"><span t-field="o.gross_salary"/></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%;"><strong>Total Deductions:</strong></td>
+                        <td style="width: 50%;"><span t-field="o.deductions"/></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 50%;"><strong>Net Salary:</strong></td>
+                        <td style="width: 50%;"><span t-field="o.net_salary"/></td>
+                    </tr>
+                </table>
+                <div class="row" style="margin-top: 12.5em;">
+                    <div class="col-9">
+                        <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Authorized Signature</strong>
+                    </div>
+                    <div class="col-3">
+                        <strong style="padding-top: 120px;text-align:center;text-decoration: overline;">Employee Signature</strong>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
+
+
+
+
+
+
+

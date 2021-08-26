@@ -1,0 +1,20 @@
+{
+    'name': 'Print Journal Entries',
+    'version': '1.0.1',
+    'category': 'Account',
+    'summary': 'Print Journal Entries for Odoo v13.',
+    'description': 'Allow to print PDF report of Journal Entries for Odoo v13.',
+    'author': 'Ogroni Informatix Limited',
+    'company': 'Ogroni Informatix Limited',
+    'maintainer': 'Ogroni Informatix Limited',
+    'website': 'https://ogroni.com/',
+    'depends': ['base', 'account'],
+    'data': [
+            'security/ir.model.access.csv',
+            'report/report_journal_entries.xml',
+            'report/report_journal_entries_view.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

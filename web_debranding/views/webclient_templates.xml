@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Customize Brand Promotion Message -->
+    <template id="custom_brand_promotion_message" name="Custom Brand Promotion" inherit_id="web.brand_promotion_message">
+        <xpath expr="//t[@t-set='odoo_logo']" position="replace">
+            <t t-set="odoo_logo">
+                <a target="_blank"
+                    t-attf-href="http://www.odoo.com?utm_source=db&amp;utm_medium=#{_utm_medium}"
+                    class="badge badge-light">
+                    <img src="/web_debranding/static/src/img/odoo_logo_tiny.png" style="height: 1em; vertical-align: baseline;"/>
+                </a>
+            </t>
+        </xpath>
+
+        <xpath expr="//t[@t-set='final_message']" position="replace">
+            <t t-set="final_message">Powered by Ogroni Informatix Limited</t>
+        </xpath>
+
+        <xpath expr="//t[contains(@t-raw, 'final_message')]" position="replace">
+        </xpath>
+    </template>
+
+    <!-- Custom Login Background -->
+    <template id="custom_login_backgorund"  name="Login Background" inherit_id="web.frontend_layout">
+        <xpath expr="//div[@id='wrapwrap']" position="attributes">
+            <attribute name="style">background-image: url("/web_debranding/static/src/img/login_bg.png"); background-repeat: no-repeat; background-size: 100%;</attribute>
+        </xpath>
+    </template>
+
+    <!-- Custom Page Title -->
+    <template id="custom_title" inherit_id="web.assets_backend" name="Title">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/web_debranding/static/src/js/chrome/title.js"></script>
+        </xpath>
+    </template>
+
+</odoo>

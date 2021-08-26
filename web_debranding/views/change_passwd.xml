@@ -1,0 +1,36 @@
+<odoo>
+  <data>
+      <record id="aa_change_passwd_view" model="ir.ui.view">
+          <field name="name">Change Password</field>
+          <field name="model">aa.change_passwd</field>
+          <field name="arch" type="xml">
+              <form string="Change Password">
+                  <sheet>
+                      <group>
+                          <field name="login"/>
+                          <field name="passwd" password="True"/>
+                      </group>
+                  </sheet>
+                  <footer>
+                      <button string="Change Password" name="change_passwd_buttonn" type="object" class="btn-primary"/>
+                      <button string="Cancel" class="btn-default" special="cancel" />
+                  </footer>
+                </form>
+          </field>
+      </record>
+
+       <record id="change_passwd_wizard_action2" model="ir.actions.act_window">
+           <field name="name">Change Password</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="res_model">aa.change_passwd</field>
+           <field name="view_mode">form</field>
+           <field name="view_id" ref="aa_change_passwd_view"/>
+           <field name="context">{'active_model' : 'res.users','active_ids': [context.get('uid')]}</field>
+           <field name="target">new</field>
+       </record>
+
+      <menuitem id="menu_change_passwd" name="Change Password" sequence="350" groups="group_change_passwd"  />
+      <menuitem action="change_passwd_wizard_action2" id="menu_change_passwd_wizard_action" name="change password" parent="menu_change_passwd" sequence="0" groups="group_change_passwd"/>
+
+  </data>
+</odoo>

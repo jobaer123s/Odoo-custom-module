@@ -1,0 +1,25 @@
+{
+    'name': 'Custom Vat',
+    'version': '1.0.0',
+    'category': 'Vat',
+    'sequence': '2',
+    'summary': 'Custom Vat for Odoo v13',
+    'description': """ Custom Vat for Odoo v13 """,
+    'author': 'Ogroni Informatix Limited',
+    'company': 'Ogroni Informatix Limited',
+    'maintainer': 'Ogroni Informatix Limited',
+    'website': "https://ogroni.net/",
+    'depends': ['sale', 'account'],
+    'data':
+        [
+        'views/custom_vat.xml',
+        'views/account_move_inherit.xml',
+        'views/account_move_line_inherit.xml',
+        'views/sale_order_inherit.xml',
+        'views/sale_order_line_inherit.xml',
+        'views/custom_vat_invoice.xml',
+        ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

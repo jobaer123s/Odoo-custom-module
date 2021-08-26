@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_detail_customer_ledger_system,access.detail.customer.ledger.system,model_detail_customer_ledger,account.group_account_user,1,1,1,1
+
+access_summarized_customer_ledger_system,access.summarized.customer.ledger.system,model_summarized_customer_ledger,account.group_account_user,1,1,1,1
+
+access_customer_ledger_system,access.customer.ledger.system,model_customer_ledger,account.group_account_user,1,1,1,1

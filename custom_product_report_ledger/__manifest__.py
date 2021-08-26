@@ -1,0 +1,21 @@
+{
+    'name': "Custom Product Wise Customer Report Ledger",
+    'author': "Ogroni Informatix Limited",
+    'version': '1.0.0',
+    'summary': 'Custom Product Wise Customer Report Ledger for Odoo v13',
+    'sequence': '11',
+    'description': """ Custom Product Wise Customer Report Ledger """,
+    'category': 'Report',
+    'company': 'Ogroni Informatix Limited',
+    'maintainer': 'Ogroni Informatix Limited',
+    'website': 'https://ogroni.com/',
+    'depends': ['base_setup', 'base', 'account', 'report_xlsx'],
+    'data': [
+        'security/ir.model.access.csv',
+        'report/product_ledger.xml',
+        'report/product_ledger_pdf_template.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

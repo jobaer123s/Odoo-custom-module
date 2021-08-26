@@ -1,0 +1,17 @@
+{
+    "name": "Base report xlsx",
+    "version": "1.0.1",
+    "category": "Report",
+    "summary": "Base module to create xlsx report for Odoo v13",
+    'author': 'Ogroni Informatix Limited',
+    'company': 'Ogroni Informatix Limited',
+    'maintainer': 'Ogroni Informatix Limited',
+    'website': 'https://ogroni.net/',
+    "external_dependencies": {"python": ["xlsxwriter", "xlrd"]},
+    "depends": ["base", "web"],
+    "data": ["views/webclient_templates.xml"],
+    "demo": ["demo/report.xml"],
+    "installable": True,
+    'application': True,
+    'auto_install': False,
+}

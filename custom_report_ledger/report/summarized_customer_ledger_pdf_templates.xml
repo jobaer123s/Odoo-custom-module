@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="summarized_customer_ledger_report">
+
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style type="text/css">
+                        table {
+                            font-family: arial, sans-serif;
+                            border-collapse: collapse;
+                            width: 100%;
+                        }
+
+                        td, th {
+                            border: 1px solid #dddddd;
+                            padding: 5px;
+                        }
+
+                        th{
+                            background: #90ee90;
+                            text-align: center;
+                        }
+
+                        h2 {
+                            color:green;
+                            text-align:center !important;
+                        }
+
+                    </style>
+
+                    <div class="oe_structure"/>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2 style="color: #000">Summarized Customer Ledger: (From: <t t-esc="from_date"/> To: <t t-esc="to_date"/>)</h2>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <!--<th class="align-middle">Sl.</th>-->
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Customer</strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Date</strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Invoice</strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Sales Person </strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Description </strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Qty </strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Unit Price </strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Total Price </strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Debit </strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Credit </strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Balance </strong></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="sl_no" t-value="1"/>
+                                <t t-foreach="csr" t-as="o">
+                                    <tr>
+
+                                        <t t-if="o['customer_name'] == ''">
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['customer_name']"/>
+                                            </td>
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['invoice_date']"/>
+                                            </td>
+
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['invoice_no']"/>
+                                            </td>
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['sales_person']"/>
+                                            </td>
+                                            <td style="border-style:none !important;">
+                                                <t t-esc="o['product_name']"/>
+                                            </td>
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['quantity']"/>
+                                            </td>
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['unit_price']"/>
+                                            </td>
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['total_price']"/>
+                                            </td>
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['debit']"/>
+                                            </td>
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['credit']"/>
+                                            </td>
+                                            <td class="text-center" style="border-style:none !important;">
+                                                <t t-esc="o['balance']"/>
+                                            </td>
+                                            <t t-set="sl_no" t-value="sl_no+1"/>
+                                        </t>
+                                        <t t-else="">
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['customer_name']"/></strong>
+                                            </td>
+
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['invoice_date']"/></strong>
+                                            </td>
+
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['invoice_no']"/></strong>
+                                            </td>
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['sales_person']"/></strong>
+                                            </td>
+                                            <td style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['product_name']"/></strong>
+                                            </td>
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['quantity']"/></strong>
+                                            </td>
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['unit_price']"/></strong>
+                                            </td>
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['total_price']"/></strong>
+                                            </td>
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['debit']"/></strong>
+                                            </td>
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['credit']"/></strong>
+                                            </td>
+                                            <td class="text-center" style="background-color: #dddddd;">
+                                                <strong><t t-esc="o['balance']"/></strong>
+                                            </td>
+
+                                            <t t-set="sl_no" t-value="sl_no+1"/>
+                                        </t>
+                                    </tr>
+
+                                </t>
+                                <tr>
+                                    <td colspan="8" class="text-right" style="border-style:none !important;"><strong>Total</strong></td>
+                                    <td style="border-style:none !important;"><t t-esc="total_debit" /></td>
+                                    <td style="border-style:none !important;"><t t-esc="total_credit" /></td>
+                                    <td style="border-style:none !important;"><t t-esc="total_balance" /></td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2>Sales Person Ranking Report: (From: <t t-esc="from_date"/> To: <t t-esc="to_date"/>)</h2>
+                        </div>
+                    </div>
+                    <br></br>
+                    <div class="row">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="align-middle">Sl.</th>
+                                    <th class="align-middle"><strong>Sales Person</strong></th>
+                                    <th class="align-middle"><strong>Total Sales</strong></th>
+                                    <th class="align-middle"><strong>Percentage</strong></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="sl_no" t-value="1"/>
+                                <t t-foreach="sp_sale" t-as="sp">
+                                    <tr>
+
+                                        <td class="text-center">
+                                            <t t-esc="sl_no" />
+                                        </td>
+
+                                        <td class="text-center" style="border-style:none !important;">
+                                            <t t-esc="sp['sales_person_name']"/>
+                                        </td>
+                                        <td class="text-center" style="border-style:none !important;">
+                                            <t t-esc="sp['total_sale']"/>
+                                        </td>
+                                        <td class="text-center" style="border-style:none !important;">
+                                            <t t-esc="sp['percentage']"/>
+                                        </td>
+
+                                        <t t-set="sl_no" t-value="sl_no+1"/>
+
+                                    </tr>
+
+                                </t>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

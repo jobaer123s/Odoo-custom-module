@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_custom_reference_system,access.custom.reference.system,model_custom_reference,account.group_account_user,1,1,1,1

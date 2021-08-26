@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="customer_ledger_report">
+
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style type="text/css">
+
+
+                        th{
+                            background: #90ee90;
+                            text-align: center;
+                        }
+
+                        tr:nth-child(even) {
+                            background-color: #dddddd;
+                        }
+
+                        h2 {
+                            color:green;
+                            text-align:center !important;
+                        }
+
+                        .total-row{
+                            background-color: #ffffff !important;
+                            text-align: center !important;
+                        }
+
+                    </style>
+
+                    <div class="oe_structure"/>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2 style="color: #000">Customer Ledger: (From: <t t-esc="from_date"/> To: <t t-esc="to_date"/>)</h2>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle">Sl.</th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Customer</strong></th>
+
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Debit </strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Credit </strong></th>
+                                    <th style="background-color: #FFFF00 !important" class="align-middle"><strong>Balance </strong></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="sl_no" t-value="1"/>
+                                <t t-foreach="csr" t-as="o">
+                                    <tr>
+
+                                        <td class="text-center">
+                                            <t t-esc="sl_no" />
+                                        </td>
+
+
+                                        <td class="text-center">
+                                            <t t-esc="o['customer_name']"/>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <t t-esc="o['debit']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="o['credit']"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <t t-esc="o['balance']"/>
+                                        </td>
+                                        <t t-set="sl_no" t-value="sl_no+1"/>
+
+                                    </tr>
+
+                                </t>
+                                <tr class="total-row">
+                                    <td class="text-right" colspan="2"><strong>Total</strong></td>
+                                    <td style="border-style:none !important;"><t t-esc="total_debit" /></td>
+                                    <td style="border-style:none !important;"><t t-esc="total_credit" /></td>
+                                    <td style="border-style:none !important;"><t t-esc="total_balance" /></td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

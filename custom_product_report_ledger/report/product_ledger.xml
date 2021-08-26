@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+            <record id="product_ledger_form" model="ir.ui.view">
+            <field name="name">product.ledger.form</field>
+            <field name="model">product.ledger</field>
+            <field name="arch" type="xml">
+                <form string="Product Wise Customer Ledger">
+                    <group>
+                        <group>
+                            <field name="from_date" required="1"/>
+                            <field name="customer" required="1"/>
+                        </group>
+                        <group>
+                            <field name="to_date" required="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="product_ledger_pdf" string="Download (PDF)" type="object" class="btn-primary" context="{'from_date': from_date, 'customer': customer, 'to_date': to_date}"/>
+                        <button name="product_ledger_excel" string="Download (Excel)" type="object" class="btn-primary" context="{'from_date': from_date, 'customer': customer, 'to_date': to_date}"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_ledger_report_action" model="ir.actions.act_window">
+            <field name="name">Product Wise Customer Ledger</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.ledger</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="product_ledger_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Accounting Report Menu: Reporting > Product Ledger -->
+        <menuitem id="menu_product_ledger_report"
+              name="Product Wise Customer Ledger"
+              sequence="9"
+              action="custom_product_report_ledger.product_ledger_report_action"
+              parent="base_accounting_kit.account_reports_generic_statements"
+        />
+
+        <report
+            id="product_ledger_report_tmpl"
+            string="Product Ledger"
+            model="product.ledger"
+            report_type="qweb-pdf"
+            name="custom_product_report_ledger.product_ledger_report"
+            file="custom_product_report_ledger.product_ledger_report"
+            />
+
+        <report
+            id="product_ledger_xlsx_report_tmpl"
+            string="Product Ledger Excel"
+            model="product.ledger"
+            report_type="xlsx"
+            name="custom_product_report_ledger.product_ledger_xlsx_report"
+            file="custom_product_report_ledger.product_ledger_xlsx_report"
+            />
+    </data>
+</odoo>
